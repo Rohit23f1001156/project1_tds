@@ -388,32 +388,33 @@ def extract_specific_content_and_create_index(input_file: str, output_file: str,
 
 def process_and_write_logfiles(input_file: str, output_file: str, num_logs: int = 10, num_of_lines: int = 1):
     """
-    Process n number of log files num_logs given in the input_file and write x number of lines num_of_lines  of each log file to the output_file.
+    Process the most recent n number of log files and write the first line of each log file to the output file.
 
     Args:
         input_file (str): The directory containing the log files.
         output_file (str): The path to the output file where the extracted lines will be written.
-        num_logs (int): The number of log files to process.
-        num_of_lines (int): The number of lines to extract from each log file.
-
+        num_logs (int): The number of most recent log files to process.
+        num_of_lines (int): The number of lines to extract from each log file (set to 1 for the first line).
     """
-    input_file_path = ensure_local_path(input_file)
-    output_file_path = ensure_local_path(output_file)
+    input_file_path = ensure_local_path(input_file)  # Ensure the input path is correct
+    output_file_path = ensure_local_path(output_file)  # Ensure the output path is correct
+
+    # Get all .log files in the directory
     log_files = glob.glob(os.path.join(input_file_path, "*.log"))
 
+    # Sort the log files by modification time (most recent first)
     log_files.sort(key=os.path.getmtime, reverse=True)
 
+    # Limit the log files to the 10 most recent
     recent_logs = log_files[:num_logs]
 
+    # Open the output file in write mode to overwrite its contents
     with open(output_file_path, "w") as outfile:
         for log_file in recent_logs:
             with open(log_file, "r") as infile:
-                for _ in range(num_of_lines):
-                    line = infile.readline()
-                    if line:
-                        outfile.write(line)
-                    else:
-                        break
+                # Read the first line of each log file and write it to the output file
+                first_line = infile.readline().strip()  # Get the first line of the log file
+                outfile.write(first_line + "\n")  # Write it to the output file, each on a new line
 
 
 def sort_json_by_keys(input_file: str, output_file: str, keys: list):
