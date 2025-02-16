@@ -6,7 +6,8 @@ This is a sample paragraph with extra spaces and trailing whitespace.
 - Second item
   +Third item
 
-  - Fourth item
+
+    *    Fourth item
 
 ```py
 print("23f1001156@ds.study.iitm.ac.in")

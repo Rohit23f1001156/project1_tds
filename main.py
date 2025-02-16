@@ -101,9 +101,7 @@ def parse_task_description(task_description: str, tools: list):
             "tool_choice": "required",
         }
     )
-    logging.info("PRINTING RESPONSE:::" * 3)
-    print(response.json())
-    logging.info("PRINTING RESPONSE:::" * 3)
+
     return response.json()["choices"][0]["message"]
 
 
@@ -166,8 +164,4 @@ async def read_file(path: str = Query(..., description="Path to the file to read
 
 if __name__ == "__main__":
     import uvicorn
-
-    tools = [convert_function_to_openai_schema(count_occurrences),
-             convert_function_to_openai_schema(query_database)]  # REMOVE THIS LATER
-    print(tools)
     uvicorn.run(app, host="0.0.0.0", port=8000)

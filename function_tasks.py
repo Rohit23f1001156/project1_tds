@@ -124,10 +124,6 @@ def convert_function_to_openai_schema(func: Callable) -> dict:
     return openai_function_schema
 
 
-import os
-import subprocess
-
-
 def format_file_with_prettier(file_path: str, prettier_version: str):
     """
     Format the contents of a specified file using Prettier, ensuring the file is updated in-place.
@@ -146,6 +142,7 @@ def format_file_with_prettier(file_path: str, prettier_version: str):
 
 # Call the function with your file
 format_file_with_prettier("data/format.md", "3.4.2")
+
 
 def query_gpt(user_input: str, task: str):
     response = requests.post(
